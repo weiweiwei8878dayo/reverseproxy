@@ -4,11 +4,10 @@
   "description": "Simple Node.js Reverse Proxy",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js" 
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
     "http-proxy-middleware": "^2.0.6"
-    // "serverless-http": "不要なので削除する" 
   }
 }
