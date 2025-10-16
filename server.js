@@ -1,33 +1,33 @@
-// server.js
-const express = require('express');
+// netlify/functions/proxy.js
+
+// Netlify Functionsのエントリーポイント
+// Netlifyがリクエストを受け取ると、このhandlerが実行されます。
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const serverless = require('serverless-http');
 
+// Expressアプリを再利用
+const express = require('express');
 const app = express();
-// Onrenderが自動的に割り当てるポートを使用します
-const port = process.env.PORT || 3000; 
 
-// =======================================================
-// ★★★ ここを転送したいURLに書き換えてください ★★★
-const TARGET_URL = 'https://duckduckgo.com/'; 
-// =======================================================
+const TARGET_URL = 'https://jsonplaceholder.typicode.com'; // テスト用API
 
 // プロキシのセットアップ
-// この設定では、https://[あなたのサイト].onrender.com/api/xxx へのリクエストが
-// TARGET_URL/xxx へ転送されます。
-app.use('/api', createProxyMiddleware({
+// Netlifyのリライトルールで /api/ がここにルーティングされます
+app.use('/', createProxyMiddleware({ 
   target: TARGET_URL, 
-  changeOrigin: true, // 外部サイトのホストヘッダーを変更
+  changeOrigin: true, 
   pathRewrite: {
-    '^/api': '', // リクエストパスから '/api' を取り除く
+    '^/': '', // ルートパスにルーティングされるため、パスを空にする
   },
-  logLevel: 'debug' // 動作確認のためにログレベルをデバッグに設定
+  // ヘッダーを制御する必要がある場合は、ここで設定します
 }));
 
-// ルートパス ( / ) へのアクセス時のメッセージ
-app.get('/', (req, res) => {
-  res.send(`プロキシサーバーが動作しています。転送先: ${TARGET_URL}。/api/ へのアクセスを試してください。`);
-});
+// Expressアプリをサーバーレス関数としてラップ
+const handler = serverless(app);
 
-app.listen(port, () => {
-  console.log(`プロキシサーバーがポート ${port} で起動しました。`);
-});
+module.exports.handler = async (event, context) => {
+    // Netlify FunctionsでCORSが必要な場合はここで設定できます
+    // event.headers["Access-Control-Allow-Origin"] = "*";
+    
+    return handler(event, context);
+};
