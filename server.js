@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000; 
 
 // ターゲットURLを環境変数から取得することを強く推奨します
-const TARGET_URL = process.env.TARGET_URL || 'https://jsonplaceholder.typicode.com'; 
+const TARGET_URL = process.env.TARGET_URL || 'https://duckduckgo.com'; 
 
 // ====================================================
 
