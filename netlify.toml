@@ -1,0 +1,10 @@
+[build]
+  # プロキシ関数が配置されているディレクトリを指定
+  functions = "netlify/functions" 
+
+# リライト（ルーティング）ルールの設定
+# /api/ に来た全てのリクエストを、proxyという名前の関数に送る
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/proxy" 
+  status = 200 # 200 (OK) を返すことで、ブラウザに転送先のURLが見えないようにする
