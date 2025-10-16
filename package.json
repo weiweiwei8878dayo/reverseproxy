@@ -1,20 +1,14 @@
 {
-  "name": "render-simple-proxy",
+  "name": "proxy-server",
   "version": "1.0.0",
-  "description": "A simple reverse proxy for Render using Express.",
+  "description": "Simple Node.js Reverse Proxy",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js" 
   },
-  "keywords": [
-    "proxy",
-    "render",
-    "express"
-  ],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2",
-    "http-proxy-middleware": "^3.0.0"
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6"
+    // "serverless-http": "不要なので削除する" 
   }
 }
